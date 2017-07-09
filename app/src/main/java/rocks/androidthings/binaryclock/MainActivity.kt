@@ -33,95 +33,88 @@ class MainActivity : Activity() {
             Log.e(TAG, "Error initializing LED matrix", e)
         }
 
-        val someHandler = Handler(mainLooper)
-        someHandler.postDelayed(object : Runnable {
+        val timeHandler = Handler(mainLooper)
+        timeHandler.postDelayed(object : Runnable {
             override fun run() {
-
-                rightNow = Calendar.getInstance()
-
-                val hour = rightNow.get(Calendar.HOUR_OF_DAY)
-                val minute = rightNow.get(Calendar.MINUTE)
-                val hourUnit = hour % 10
-                val minuteUnit = minute % 10
-
-                // HOUR (0)
-                if(hour in 10..19) {
-                    ledControl.setLed(0, 0, 1, true)
-                } else {
-                    ledControl.setLed(0, 0, 1, false)
-                }
-                if(hour in 20..23)  {
-                    ledControl.setLed(0, 0, 2, true)
-                } else {
-                    ledControl.setLed(0, 0, 2, false)
-                }
-
-                //HOUR UNITS (1)
-                if(hourUnit == 1 || hourUnit == 3 || hourUnit == 5 || hourUnit == 7 || hourUnit == 9) {
-                    ledControl.setLed(0, 1, 1, true)
-                } else {
-                    ledControl.setLed(0, 1, 1, false)
-                }
-                if(hourUnit == 2 || hourUnit == 3 || hourUnit == 6 || hourUnit == 7) {
-                    ledControl.setLed(0, 1, 2, true)
-                } else {
-                    ledControl.setLed(0, 1, 2, false)
-                }
-                if(hourUnit == 4 || hourUnit == 5 || hourUnit == 6 || hourUnit == 7) {
-                    ledControl.setLed(0, 1, 3, true)
-                } else {
-                    ledControl.setLed(0, 1, 3, false)
-                }
-                if(hourUnit == 8 || hourUnit == 9) {
-                    ledControl.setLed(0, 1, 4, true)
-                } else {
-                    ledControl.setLed(0, 1, 4, false)
-                }
-
-                // MINUTE (2)
-                if((minute in 10..19) || (minute in 30..39) || (minute in 50..59))  {
-                    ledControl.setLed(0, 2, 1, true)
-                } else {
-                    ledControl.setLed(0, 2, 1, false)
-                }
-
-                if(minute in 20..39)  {
-                    ledControl.setLed(0, 2, 2, true)
-                } else {
-                    ledControl.setLed(0, 2, 2, false)
-                }
-                if(minute in 40..59) {
-                    ledControl.setLed(0, 2, 3, true)
-                } else {
-                    ledControl.setLed(0, 2, 3, false)
-                }
-
-                // MINUTE UNITS (3)
-                if(minuteUnit == 1 || minuteUnit == 3 || minuteUnit == 5 || minuteUnit == 7 || minuteUnit == 9) {
-                    ledControl.setLed(0, 3, 1, true)
-                } else {
-                    ledControl.setLed(0, 3, 1, false)
-                }
-                if(minuteUnit == 2 || minuteUnit == 3 || minuteUnit == 6 || minuteUnit == 7) {
-                    ledControl.setLed(0, 3, 2, true)
-                } else {
-                    ledControl.setLed(0, 3, 2, false)
-                }
-                if(minuteUnit == 4 || minuteUnit == 5 || minuteUnit == 6 || minuteUnit == 7) {
-                    ledControl.setLed(0, 3, 3, true)
-                } else {
-                    ledControl.setLed(0, 3, 3, false)
-                }
-                if(minuteUnit == 8 || minuteUnit == 9) {
-                    ledControl.setLed(0, 3, 4, true)
-                } else {
-                    ledControl.setLed(0, 3, 4, false)
-                }
-
-                someHandler.postDelayed(this, 1000)
+                setClockFace()
+                timeHandler.postDelayed(this, 1000)
             }
         }, 10)
 
+    }
+
+    private fun setClockFace(){
+        rightNow = Calendar.getInstance()
+
+        val hour = rightNow.get(Calendar.HOUR_OF_DAY)
+        val minute = rightNow.get(Calendar.MINUTE)
+        val hourUnit = hour % 10
+        val minuteUnit = minute % 10
+
+        Log.d(TAG, "START")
+        Log.d(TAG, hour.toString())
+        Log.d(TAG, minute.toString())
+        Log.d(TAG, "END")
+
+        // HOUR (0)
+        when (hour) {
+            in 10..19 -> ledControl.setLed(0, 0, 1, true)
+            else -> ledControl.setLed(0, 0, 1, false)
+        }
+        when (hour) {
+            in 20..23 -> ledControl.setLed(0, 0, 2, true)
+            else -> ledControl.setLed(0, 0, 2, false)
+        }
+
+        //HOUR UNITS (1)
+        when (hourUnit) {
+            1, 3, 5, 7, 9 -> ledControl.setLed(0, 1, 1, true)
+            else -> ledControl.setLed(0, 1, 1, false)
+        }
+        when (hourUnit) {
+            2, 3, 6, 7 -> ledControl.setLed(0, 1, 2, true)
+            else -> ledControl.setLed(0, 1, 2, false)
+        }
+        when (hourUnit) {
+            4, 5, 6, 7 -> ledControl.setLed(0, 1, 3, true)
+            else -> ledControl.setLed(0, 1, 3, false)
+        }
+        when (hourUnit) {
+            8, 9 -> ledControl.setLed(0, 1, 4, true)
+            else -> ledControl.setLed(0, 1, 4, false)
+        }
+
+        // MINUTE (2)
+        when (minute) {
+            in 10..19, in 30..39, in 50..59 -> ledControl.setLed(0, 2, 1, true)
+            else -> ledControl.setLed(0, 2, 1, false)
+        }
+        when (minute) {
+            in 20..39 -> ledControl.setLed(0, 2, 2, true)
+            else -> ledControl.setLed(0, 2, 2, false)
+        }
+        when (minute) {
+            in 40..59 -> ledControl.setLed(0, 2, 3, true)
+            else -> ledControl.setLed(0, 2, 3, false)
+        }
+
+        // MINUTE UNITS (3)
+        when (minuteUnit) {
+            1, 3, 5, 7, 9 -> ledControl.setLed(0, 3, 1, true)
+            else -> ledControl.setLed(0, 3, 1, false)
+        }
+        when (minuteUnit) {
+            2, 3, 6, 7 -> ledControl.setLed(0, 3, 2, true)
+            else -> ledControl.setLed(0, 3, 2, false)
+        }
+        when (minuteUnit) {
+            4, 5, 6, 7 -> ledControl.setLed(0, 3, 3, true)
+            else -> ledControl.setLed(0, 3, 3, false)
+        }
+        when (minuteUnit) {
+            8, 9 -> ledControl.setLed(0, 3, 4, true)
+            else -> ledControl.setLed(0, 3, 4, false)
+        }
     }
 
     override fun onDestroy() {
