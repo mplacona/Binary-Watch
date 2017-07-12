@@ -27,8 +27,6 @@ class MainActivity : Activity() {
                 ledControl.clearDisplay(i)
             }
 
-            //ledControl.setLed(0, 0, 1, true)
-
         } catch (e: IOException) {
             Log.e(TAG, "Error initializing LED matrix", e)
         }
